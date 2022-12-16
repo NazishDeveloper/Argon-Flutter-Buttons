@@ -37,38 +37,40 @@ class ArgonButton extends StatefulWidget {
   final double? disabledElevation;
   final Color? disabledColor;
   final Color? disabledTextColor;
+  bool isLoading;
 
-  ArgonButton(
-      {required this.height,
-      required this.width,
-      this.minWidth: 0,
-      this.loader,
-      this.animationDuration: const Duration(milliseconds: 450),
-      this.curve: Curves.easeInOutCirc,
-      this.reverseCurve: Curves.easeInOutCirc,
-      required this.child,
-      this.onTap,
-      this.color,
-      this.focusColor,
-      this.hoverColor,
-      this.highlightColor,
-      this.splashColor,
-      this.colorBrightness,
-      this.elevation,
-      this.focusElevation,
-      this.hoverElevation,
-      this.highlightElevation,
-      this.padding: const EdgeInsets.all(0),
-      this.borderRadius: 0.0,
-      this.clipBehavior: Clip.none,
-      this.focusNode,
-      this.materialTapTargetSize,
-      this.roundLoadingShape: true,
-      this.borderSide: const BorderSide(color: Colors.transparent, width: 0),
-      this.disabledElevation,
-      this.disabledColor,
-      this.disabledTextColor})
-      : assert(elevation == null || elevation >= 0.0),
+  ArgonButton({
+    required this.height,
+    required this.width,
+    this.minWidth: 0,
+    this.loader,
+    this.animationDuration: const Duration(milliseconds: 450),
+    this.curve: Curves.easeInOutCirc,
+    this.reverseCurve: Curves.easeInOutCirc,
+    required this.child,
+    this.onTap,
+    this.color,
+    this.focusColor,
+    this.hoverColor,
+    this.highlightColor,
+    this.splashColor,
+    this.colorBrightness,
+    this.elevation,
+    this.focusElevation,
+    this.hoverElevation,
+    this.highlightElevation,
+    this.padding: const EdgeInsets.all(0),
+    this.borderRadius: 0.0,
+    this.clipBehavior: Clip.none,
+    this.focusNode,
+    this.materialTapTargetSize,
+    this.roundLoadingShape: true,
+    this.borderSide: const BorderSide(color: Colors.transparent, width: 0),
+    this.disabledElevation,
+    this.disabledColor,
+    this.disabledTextColor,
+    this.isLoading = false,
+  })  : assert(elevation == null || elevation >= 0.0),
         assert(focusElevation == null || focusElevation >= 0.0),
         assert(hoverElevation == null || hoverElevation >= 0.0),
         assert(highlightElevation == null || highlightElevation >= 0.0),
@@ -151,6 +153,14 @@ class _ArgonButtonState extends State<ArgonButton>
 
   @override
   Widget build(BuildContext context) {
+    if (widget.isLoading == true && btn == ButtonState.Idle) {
+      setState(() => btn = ButtonState.Busy);
+      animateForward();
+    }
+    if (widget.isLoading == false && btn == ButtonState.Busy) {
+      setState(() => btn = ButtonState.Idle);
+      animateReverse();
+    }
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
