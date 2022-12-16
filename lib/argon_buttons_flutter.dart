@@ -37,7 +37,7 @@ class ArgonButton extends StatefulWidget {
   final double? disabledElevation;
   final Color? disabledColor;
   final Color? disabledTextColor;
-  final _ArgonButtonState state = _ArgonButtonState();
+
   ArgonButton(
       {required this.height,
       required this.width,
@@ -76,7 +76,7 @@ class ArgonButton extends StatefulWidget {
         assert(clipBehavior != null);
 
   @override
-  _ArgonButtonState createState() => state;
+  _ArgonButtonState createState() => _ArgonButtonState();
 }
 
 class _ArgonButtonState extends State<ArgonButton>
